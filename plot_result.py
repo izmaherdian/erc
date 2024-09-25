@@ -11,8 +11,8 @@ def get_circle(x,y,r):
     b = y + r * np.sin( theta )
     return a, b
 
-shape = 1
-controller = 'edc'
+shape = 2
+controller = 'bc'
 file_name = "results/data_{}_shape{}.txt".format(controller, shape)
 with open(file_name, 'rb') as file:
     data = pickle.load(file)
@@ -64,7 +64,9 @@ def plot_path():
     plt.savefig("results/path_{}_shape{}.pdf".format(controller, shape), format="pdf", bbox_inches="tight")
 
 def plot_mode():
-    plt.figure(figsize=(6,2.5))
+    fig = plt.figure(figsize=(6,2.5))
+    ax = fig.add_subplot(111, label="1")
+    ax2 = fig.add_subplot(111, label="2", frame_on=False)
     size = 10
     path = data[0]['path']
     x = np.arange(0, path.shape[0], size)
@@ -73,16 +75,50 @@ def plot_mode():
         num_state += data[i]['path'][:,10]
     num_state = num_state[x]
 
-    plt.bar(path[:,0][x], num_state, label="Tailgating")
-    plt.bar(path[:,0][x], NUM_ROBOT-num_state, bottom=num_state, label="Formation")
-    plt.xlabel("Time (s)")
-    plt.ylabel("Number of Robot")
-    plt.xlim([-1, path[-1,0]+1])
-    plt.ylim([0, NUM_ROBOT])
+    scales = []
+    for i in range(NUM_ROBOT):
+        scale = data[i]['path'][:,11]
+        scale[scale==-1]=0
+        scales.append(scale)
+    scales = np.array(scales).T
+
+    ax.bar(path[:,0][x], num_state, label="Tailgating")
+    ax.bar(path[:,0][x], NUM_ROBOT-num_state, bottom=num_state, label="Formation")
+    ax2.fill_between(path[:,0][x], np.min(scales,axis=1)[x], np.max(scales,axis=1)[x], color="k", label="Max/Min", alpha=0.3)
+    ax2.plot(path[:,0][x], np.mean(scales,axis=1)[x], 'k-', label="Average")
+    ax.set_xlabel("Time (s)")
+    ax2.set_ylabel("Scaling factor $\kappa$")
+    ax.set_ylabel("Number of Robots")
+    ax2.yaxis.tick_right()
+    ax2.yaxis.set_label_position('right') 
+    ax2.tick_params(bottom=False, labelbottom=False)
+    plt.xlim([0, path[-1,0]])
+    ax.set_ylim([0, NUM_ROBOT])
+    ax2.set_ylim(-0.1, 1.1)
     plt.tight_layout()
-    plt.legend()
+    ax.legend(loc='upper left', bbox_to_anchor=(0, 0.32))
+    ax2.legend(loc='upper right', bbox_to_anchor=(1, 0.32))
     plt.savefig("results/mode_{}_shape{}.pdf".format(controller, shape), format="pdf", bbox_inches="tight")
 
+def plot_order():
+    plt.figure(figsize=(6,2.5))
+    path = data[0]['path']
+    headings = []
+    for i in range(1,len(path)):
+        heading = 0
+        for j in range(NUM_ROBOT):
+            heading += data[j]['path'][i,4:6]/np.linalg.norm(data[j]['path'][i,4:6])
+        headings.append(np.linalg.norm(heading)/NUM_ROBOT)
+    plt.plot(path[1:,0], headings, 'b-')
+    plt.xlabel("Time (s)")
+    plt.ylabel("Order")
+    plt.xlim([0, path[-1,0]])
+    plt.ylim(0,1.1)
+    plt.tight_layout()
+    plt.grid(True)
+    plt.savefig("results/order_{}_shape{}.pdf".format(controller, shape), format="pdf", bbox_inches="tight")
+
 # plot_path()
-plot_mode()
+# plot_mode()
+# plot_order()
 plt.show()

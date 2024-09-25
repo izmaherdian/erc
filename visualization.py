@@ -46,7 +46,9 @@ def plot_speed():
     plt.tight_layout()
 
 def plot_mode():
-    plt.figure(figsize=(6,3))
+    fig = plt.figure(figsize=(6,3))
+    ax = fig.add_subplot(111, label="1")
+    ax2 = fig.add_subplot(111, label="2", frame_on=False)
     size = 10
     path = data[0]['path']
     x = np.arange(0, path.shape[0], size)
@@ -55,14 +57,29 @@ def plot_mode():
         num_state += data[i]['path'][:,10]
     num_state = num_state[x]
 
-    plt.bar(path[:,0][x], num_state, label="Tailgating")
-    plt.bar(path[:,0][x], NUM_ROBOT-num_state, bottom=num_state, label="Formation")
-    plt.xlabel("Time (s)")
-    plt.ylabel("Number of Robot")
-    plt.xlim([-1, path[-1,0]+1])
-    plt.ylim([0, NUM_ROBOT])
+    scales = []
+    for i in range(NUM_ROBOT):
+        scale = data[i]['path'][:,11]
+        scale[scale==-1]=0
+        scales.append(scale)
+    scales = np.array(scales).T
+
+    ax.bar(path[:,0][x], num_state, label="Tailgating")
+    ax.bar(path[:,0][x], NUM_ROBOT-num_state, bottom=num_state, label="Formation")
+    ax2.fill_between(path[:,0][x], np.min(scales,axis=1)[x], np.max(scales,axis=1)[x], color="k", label="Max/Min", alpha=0.3)
+    ax2.plot(path[:,0][x], np.mean(scales,axis=1)[x], 'k-', label="Average")
+    ax.set_xlabel("Time (s)")
+    ax2.set_ylabel("Scaling factor $\kappa$")
+    ax.set_ylabel("Number of Robots")
+    ax2.yaxis.tick_right()
+    ax2.yaxis.set_label_position('right') 
+    ax2.tick_params(bottom=False, labelbottom=False)
+    plt.xlim([0, path[-1,0]])
+    ax.set_ylim([0, NUM_ROBOT])
+    ax2.set_ylim(-0.1, 1.1)
     plt.tight_layout()
-    plt.legend()
+    ax.legend()
+    ax2.legend()
 
 def plot_order():
     plt.figure(figsize=(6,3))

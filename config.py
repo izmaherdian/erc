@@ -15,7 +15,7 @@ UREF = np.array([1,0,0])
 DREF = 1.0
 
 W_form = 1.0
-W_tail = 0.5
+W_tail = 1.0
 W_obs = 6.0
 W_col = 6.0
 W_rand = 2e-2
@@ -33,7 +33,7 @@ XGOAL = 22.
 NUM_ROBOT = INITS.shape[0]
 
 # Formation description
-TYPE = 1
+TYPE = 2
 if TYPE == 1: # Polygon
     TOPOLOGY = []
     for i in range(NUM_ROBOT):
@@ -46,7 +46,7 @@ elif TYPE == 2: # V shape
                          [ 0.0,-0.5, 0.0],
                          [-1.0,-1.0, 0.0]])
 
-CONTROLLER = 'bc'  # edc, bc
+CONTROLLER = 'edc'  # edc, bc
 # Create obstacles
 OBSTACLES = [
     # Forest-like
@@ -61,4 +61,4 @@ OBSTACLES = [
 ]
 
 FILE_NAME = "results/data_{}_shape{}.txt".format(CONTROLLER, TYPE)
-GIF_NAME = "results/gif_{}_shape{}.txt".format(CONTROLLER, TYPE)
+GIF_NAME = "results/gif_{}_shape{}.gif".format(CONTROLLER, TYPE)
