@@ -20,6 +20,7 @@ python3 visualization.py
 ```
 
 ## Results
-| Pentagon shape | V-shape |
-| :---:      |     :---:  |
-| <img src="results/gif_edc_shape1.gif" alt="" width="100%"/> | <img src="results/gif_edc_shape2.gif" alt="" width="100%"/> |
+|Method| Pentagon shape | V-shape |
+|:---:| :---:      |     :---:  |
+|EDC| <img src="results/gif_edc_shape1.gif" alt="" width="100%"/> | <img src="results/gif_edc_shape2.gif" alt="" width="100%"/> |
+|BC|<img src="results/gif_bc_shape1.gif" alt="" width="100%"/> | <img src="results/gif_bc_shape2.gif" alt="" width="100%"/> |
