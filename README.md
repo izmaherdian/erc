@@ -1,7 +1,7 @@
 # Event-based Deformation Control in Confined Space Environment
 This repository presents the following article in Python:
 
-Duy-Nam Bui, Manh Duong Phung, Hung Pham Duy, **"MPPDC: Model Prediction-based Perceptual Deformation Control for Multiple Robots in Narrow Space Environments,"**.
+Duy-Nam Bui, Manh Duong Phung, Hung Pham Duy, **"Event-based Deformation Control for Time-varying Formation in Confined Space,"**.
 
 ## Installation
 ```
