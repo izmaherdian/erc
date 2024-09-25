@@ -119,6 +119,8 @@ def plot_order():
     plt.savefig("results/order_{}_shape{}.pdf".format(controller, shape), format="pdf", bbox_inches="tight")
 
 plot_path()
-plot_mode()
 plot_order()
+
+if controller == "edc":
+    plot_mode()
 plt.show()
