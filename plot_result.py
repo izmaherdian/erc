@@ -11,8 +11,8 @@ def get_circle(x,y,r):
     b = y + r * np.sin( theta )
     return a, b
 
-shape = 2
-controller = 'bc'
+shape = 1
+controller = 'edc'
 file_name = "results/data_{}_shape{}.txt".format(controller, shape)
 with open(file_name, 'rb') as file:
     data = pickle.load(file)
@@ -118,7 +118,7 @@ def plot_order():
     plt.grid(True)
     plt.savefig("results/order_{}_shape{}.pdf".format(controller, shape), format="pdf", bbox_inches="tight")
 
-# plot_path()
-# plot_mode()
-# plot_order()
+plot_path()
+plot_mode()
+plot_order()
 plt.show()
