@@ -33,7 +33,7 @@ XGOAL = 22.
 NUM_ROBOT = INITS.shape[0]
 
 # Formation description
-TYPE = 2
+TYPE = 1
 if TYPE == 1: # Polygon
     TOPOLOGY = []
     for i in range(NUM_ROBOT):
@@ -46,7 +46,7 @@ elif TYPE == 2: # V shape
                          [ 0.0,-0.5, 0.0],
                          [-1.0,-1.0, 0.0]])
 
-CONTROLLER = 'bc'  # edc, bc
+CONTROLLER = 'edc'  # edc, bc
 # Create obstacles
 OBSTACLES = [
     # Forest-like

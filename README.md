@@ -6,12 +6,13 @@ Duy-Nam Bui, Manh Duong Phung, Hung Pham Duy, **"Event-based Deformation Control
 ## Installation
 ```
 git clone git@github.com:duynamrcv/edc.git
-cd edc
+pip install imageio numpy matplotlib
 ```
 
 ## Demo
 We implement two controllers, includes the proposed controller `EDC` and the pure behavior controller `BC`, which are presented in `robot_edc.py` and `robot_bc.py`, respectively. To choose the tested controller, edit parameter `CONTROLLER` in `config.py`. To run the demo, run:
 ```
+cd edc
 python3 main.py
 ```
 The data will be saved in `*.txt`. For the visualization, run:
