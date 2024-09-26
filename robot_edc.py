@@ -72,7 +72,8 @@ class Robot():
         leader_idx = self.select_leader(robots)
         if leader_idx == -1:
             return np.zeros(3)
-        v_tail = (robots[leader_idx].position - self.position - DREF*UREF) # + robots[leader_idx].velocity
+        u_ref = robots[leader_idx].velocity/np.linalg.norm(robots[leader_idx].velocity)
+        v_tail = (robots[leader_idx].position - self.position - DREF*u_ref) # + robots[leader_idx].velocity
         return W_tail*v_tail
     
     def behavior_obstacle(self):
@@ -94,7 +95,7 @@ class Robot():
             pos_rel = self.position - robots[i].position
             pos_dis = np.linalg.norm(pos_rel)
             if pos_dis < ALERT_RADIUS:
-                v_col += (ALERT_RADIUS - pos_dis)/(ALERT_RADIUS - ROBOT_RADIUS)*pos_rel/pos_dis
+                v_col += (ALERT_RADIUS - pos_dis)/(ALERT_RADIUS - 2*ROBOT_RADIUS)*pos_rel/pos_dis
         return W_col*v_col
 
     def select_leader(self, robots):

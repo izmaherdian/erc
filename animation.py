@@ -13,7 +13,7 @@ def get_circle(x,y,r):
 
 percent = 0.3
 width = 0.02
-export = True
+export = False
 if export:
     import cv2
     image_array = []
@@ -25,7 +25,7 @@ length = data[0]['path'].shape[0]
 ## Plot motion paths
 plt.figure(figsize=(8,5))
 ax = plt.axes()
-for iter in range(length):
+for iter in range(0,length,2):
     ax.cla()
 
     # Plot obstacles

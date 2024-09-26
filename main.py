@@ -13,6 +13,15 @@ def collision(robots):
             obstacle = OBSTACLES[j]
             obs_point = nearest_point_to_obstacle(position[:2], obstacle)
             if np.linalg.norm(position[:2]-obs_point) < ROBOT_RADIUS:
+                print("Obstacle")
+                return True
+            
+    for i in range(NUM_ROBOT-1):
+        pi = robots[i].position
+        for j in range(i+1, NUM_ROBOT):
+            pj = robots[j].position
+            if np.linalg.norm(pi - pj) < 2*ROBOT_RADIUS:
+                print("Inter-agent")
                 return True
     return False
             
@@ -32,7 +41,7 @@ if __name__ == "__main__":
 
         # Check collision
         if collision(robots):
-            print("Collision")
+            # print("Collision")
             break
 
         # Check reach goal

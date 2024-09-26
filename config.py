@@ -1,8 +1,8 @@
 import numpy as np
 
-TIMESTEP = 0.1
+TIMESTEP = 0.05
 ROBOT_RADIUS = 0.3
-ALERT_RADIUS = 2.5*ROBOT_RADIUS
+ALERT_RADIUS = 3*ROBOT_RADIUS
 SENSING_RADIUS = 3.0
 ITER_MAX = 1000
 EPSILON = 0.1
@@ -16,8 +16,8 @@ DREF = 1.0
 
 W_form = 1.0
 W_tail = 1.0
-W_obs = 6.0
-W_col = 6.0
+W_obs = 8.0
+W_col = 8.0
 W_rand = 2e-2
 
 XLIM = [-20., 25.]
@@ -33,7 +33,7 @@ XGOAL = 22.
 NUM_ROBOT = INITS.shape[0]
 
 # Formation description
-TYPE = 1
+TYPE = 2
 if TYPE == 1: # Polygon
     TOPOLOGY = []
     for i in range(NUM_ROBOT):
@@ -46,7 +46,7 @@ elif TYPE == 2: # V shape
                          [ 0.0,-0.5, 0.0],
                          [-1.0,-1.0, 0.0]])
 
-CONTROLLER = 'edc'  # edc, bc
+CONTROLLER = 'bc'  # edc, bc
 # Create obstacles
 OBSTACLES = [
     # Forest-like

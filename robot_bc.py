@@ -81,7 +81,7 @@ class Robot():
             pos_rel = self.position - robots[i].position
             pos_dis = np.linalg.norm(pos_rel)
             if pos_dis < ALERT_RADIUS:
-                v_col += (ALERT_RADIUS - pos_dis)/(ALERT_RADIUS - ROBOT_RADIUS)*pos_rel/pos_dis
+                v_col += (ALERT_RADIUS - pos_dis)/(ALERT_RADIUS - 2*ROBOT_RADIUS)*pos_rel/pos_dis
         return W_col*v_col
 
     def behavior_random(self):
