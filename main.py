@@ -1,8 +1,8 @@
 import numpy as np
 from config import *
 from utils import *
-if CONTROLLER == 'edc':
-    from robot_edc import Robot
+if CONTROLLER == 'erc':
+    from robot_erc import Robot
 else:
     from robot_bc import Robot
 

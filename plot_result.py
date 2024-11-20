@@ -12,7 +12,7 @@ def get_circle(x,y,r):
     return a, b
 
 shape = 1
-controller = 'edc'
+controller = 'erc'
 file_name = "results/data_{}_shape{}.txt".format(controller, shape)
 with open(file_name, 'rb') as file:
     data = pickle.load(file)
@@ -121,6 +121,6 @@ def plot_order():
 plot_path()
 plot_order()
 
-if controller == "edc":
+if controller == "erc":
     plot_mode()
 plt.show()

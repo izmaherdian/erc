@@ -6,7 +6,7 @@ from matplotlib.patches import Polygon
 from config import *
 
 shape = 1
-methods = ['edc', 'bc']
+methods = ['erc', 'bc']
 
 for method in methods:
     file_name = "results/data_{}_shape{}.txt".format(method, shape)
