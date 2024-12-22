@@ -70,7 +70,7 @@ class Robot():
             obs_rel = self.position - np.concatenate([obs_point,[self.position[2]]])
             obs_dis = np.linalg.norm(obs_rel)
             if obs_dis < ALERT_RADIUS:
-                v_obs += 2*(ALERT_RADIUS - obs_dis)/(ALERT_RADIUS - ROBOT_RADIUS)*obs_rel/obs_dis
+                v_obs += 0.5*(1/obs_dis - 1/ALERT_RADIUS)/(obs_dis**2)*obs_rel/obs_dis
         return W_obs*v_obs
     
     def behavior_collision(self, robots):
@@ -81,7 +81,7 @@ class Robot():
             pos_rel = self.position - robots[i].position
             pos_dis = np.linalg.norm(pos_rel)
             if pos_dis < ALERT_RADIUS:
-                v_col += (ALERT_RADIUS - pos_dis)/(ALERT_RADIUS - 2*ROBOT_RADIUS)*pos_rel/pos_dis
+                v_col += 2*(1/pos_dis - 1/ALERT_RADIUS)/(pos_dis**2)*pos_rel/pos_dis
         return W_col*v_col
 
     def behavior_random(self):
