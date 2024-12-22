@@ -6,7 +6,7 @@ from matplotlib.patches import Polygon
 from config import *
 
 shape = 1
-methods = ['erc', 'bc']
+methods = ['erc', 'bc', 'iapf']
 
 for method in methods:
     file_name = "results/data_{}_shape{}.txt".format(method, shape)
@@ -20,6 +20,6 @@ for method in methods:
         velocity = path[:,4:7]
         acceleration = path[:,7:10]
         vel += np.linalg.norm(velocity)/total_time
-        acc += np.linalg.norm(acceleration)/total_time
+        acc += np.linalg.norm(acceleration)
     print(method, " - speed: ", vel/NUM_ROBOT)
     print(method, " - acceleration: ", acc**2/NUM_ROBOT)

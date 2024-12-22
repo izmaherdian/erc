@@ -46,7 +46,7 @@ elif TYPE == 2: # V shape
                          [ 0.0,-0.5, 0.0],
                          [-1.0,-1.0, 0.0]])
 
-CONTROLLER = 'erc'  # erc, bc
+CONTROLLER = 'iapf'  # erc, bc, iapf
 # Create obstacles
 OBSTACLES = [
     # Forest-like

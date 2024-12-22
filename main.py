@@ -3,6 +3,8 @@ from config import *
 from utils import *
 if CONTROLLER == 'erc':
     from robot_erc import Robot
+elif CONTROLLER == 'iapf':
+    from robot_iapf import Robot
 else:
     from robot_bc import Robot
 
@@ -36,6 +38,9 @@ if __name__ == "__main__":
     iter = 0
     while iter < ITER_MAX:
         iter += 1
+        if iter % 10 == 0:
+            print("Iteration {}".format(iter))
+
         for i in range(NUM_ROBOT):
             robots[i].compute_control(robots, dt=TIMESTEP)
 
