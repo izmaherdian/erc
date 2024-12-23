@@ -34,7 +34,7 @@ def plot_path():
     fig.colorbar(pp, ax=ax, orientation="horizontal", fraction=0.1, label="Speed (m/s)")
 
     # Plot formation
-    n_plot = 6
+    n_plot = 5
     length = path.shape[0]
     for i in range(n_plot+1):
         iter = int(round(length/n_plot)*i)
