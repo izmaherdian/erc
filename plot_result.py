@@ -11,7 +11,7 @@ def get_circle(x,y,r):
     b = y + r * np.sin( theta )
     return a, b
 
-shape = 1
+shape = 2
 controller = 'erc'
 file_name = "results/data_{}_shape{}.txt".format(controller, shape)
 with open(file_name, 'rb') as file:
@@ -86,6 +86,7 @@ def plot_mode():
     ax.bar(path[:,0][x], NUM_ROBOT-num_state, bottom=num_state, label="Formation")
     ax2.fill_between(path[:,0][x], np.min(scales,axis=1)[x], np.max(scales,axis=1)[x], color="k", label="Max/Min", alpha=0.3)
     ax2.plot(path[:,0][x], np.mean(scales,axis=1)[x], 'k-', label="Average")
+    ax2.grid(True, axis='y')
     ax.set_xlabel("Time (s)")
     ax2.set_ylabel("Scaling factor $\kappa$")
     ax.set_ylabel("Number of Robots")
@@ -109,7 +110,13 @@ def plot_order():
         for j in range(NUM_ROBOT):
             heading += data[j]['path'][i,4:6]/np.linalg.norm(data[j]['path'][i,4:6])
         headings.append(np.linalg.norm(heading)/NUM_ROBOT)
-    plt.plot(path[1:,0], headings, 'b-')
+
+    headings = np.array(headings)
+    thresh = 0.9998
+    x = np.where(headings>thresh)[0]
+    
+    plt.plot(path[1:,0], headings, 'r-')
+    plt.scatter(path[x,0], headings[x], c='b', marker='.', s=5, zorder=10)
     plt.xlabel("Time (s)")
     plt.ylabel("Order")
     plt.xlim([0, path[-1,0]])
