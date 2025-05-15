@@ -30,6 +30,44 @@ def plot_path():
     plt.ylabel('y (m)')
     plt.tight_layout()
 
+def plot_center_to_goal():
+    # Hitung pusat formasi tiap iterasi
+    length = data[0]['path'].shape[0]
+    centers = np.zeros((length, 2))
+    for t in range(length):
+        pos_sum = np.zeros(2)
+        for i in range(NUM_ROBOT):
+            pos_sum += data[i]['path'][t,1:3]
+        centers[t] = pos_sum / NUM_ROBOT
+
+    fig, ax = plt.subplots(figsize=SIZE)
+
+    # Plot obstacles
+    for obstacle in OBSTACLES:
+        ax.add_patch(Polygon(obstacle, color='grey'))
+
+    # Plot jalur robot
+    for i in range(NUM_ROBOT):
+        path = data[i]['path']
+        ax.plot(path[:,1], path[:,2], label=f"Robot {i}")
+
+    # Plot trajectory pusat formasi sebagai titik kecil
+    ax.scatter(centers[:,0], centers[:,1], s=10, color='blue', alpha=0.3, label='Center Trajectory')
+
+    # Plot titik pusat formasi tiap 10 iterasi dengan titik lebih besar
+    interval = 10
+    selected_centers = centers[::interval]
+    ax.scatter(selected_centers[:,0], selected_centers[:,1], s=10, color='red', label='Center Points')
+
+    ax.set_xlabel('x (m)')
+    ax.set_ylabel('y (m)')
+    ax.set_xlim(XLIM)
+    ax.set_ylim(YLIM)
+    ax.legend()
+    ax.grid(True)
+    plt.tight_layout()
+    plt.show()
+
 def plot_speed():
     plt.figure(figsize=(6,3))
     for i in range(NUM_ROBOT):
@@ -98,8 +136,9 @@ def plot_order():
     plt.tight_layout()
     plt.grid(True)
 
-plot_path()
-plot_speed()
+# plot_path()
+plot_center_to_goal()
+# plot_speed()
 # plot_mode()
-plot_order()
+# plot_order()
 plt.show()

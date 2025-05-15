@@ -12,7 +12,7 @@ def get_circle(x,y,r):
     return a, b
 
 shape = 2
-controller = 'erc'
+controller = 'iapf'
 file_name = "results/data_{}_shape{}.txt".format(controller, shape)
 with open(file_name, 'rb') as file:
     data = pickle.load(file)

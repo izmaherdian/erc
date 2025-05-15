@@ -5,11 +5,12 @@ ROBOT_RADIUS = 0.3
 ALERT_RADIUS = 3*ROBOT_RADIUS
 SENSING_RADIUS = 3.0
 ITER_MAX = 1000
+
 EPSILON = 0.1
 ALPHA = 8
 
-VREF = 1.0
-VMAX = 2.0
+VREF = 0.5
+VMAX = 1.0
 UMAX = 2.0
 UREF = np.array([1,0,0])
 DREF = 1.0
@@ -25,11 +26,14 @@ YLIM = [  0., 6.5]
 SIZE = [10, 3]
 
 INITS = np.array([[-18.0, 3.0, 0.],
-                  [-18.1, 5.0, 0.],
-                  [-18.2, 4.0, 0.],
-                  [-18.3, 2.0, 0.],
-                  [-18.4, 1.0, 0.]])
-XGOAL = 22.
+                  [-18.4, 8.0, 0.],
+                  [-18.7, 6.0, 0.],
+                  [-18.7, 0.0, 0.],
+                  [-18.4, -2.0, 0.]])
+
+XGOAL = -18.0
+YGOAL = 3.0
+
 NUM_ROBOT = INITS.shape[0]
 
 # Formation description
@@ -46,7 +50,7 @@ elif TYPE == 2: # V shape
                          [ 0.0,-0.5, 0.0],
                          [-1.0,-1.0, 0.0]])
 
-CONTROLLER = 'erc'  # erc, bc, iapf
+CONTROLLER = 'iapf'  # erc, bc, iapf
 # Create obstacles
 OBSTACLES = [
     # Forest-like
@@ -54,6 +58,7 @@ OBSTACLES = [
     [[-10.0, 0.7], [-9.5, 1.5], [-8.5, 1.9], [-9.0, 0.7]],
     [[-12.0, 5.0], [-11.5, 4.5], [-10.5, 4.7], [-11.5, 5.5]],
     [[-3.0, 0.5], [-2.5, 1.0], [-1.5, 1.2], [-2.0, 0.1]],
+    # [[-17.4, 2.0], [-17.4, 2.5], [-15.9, 2.5], [-15.9, 2.0]],
 
     # Narrow gap
     [[0.0, 0.0], [ 5.0, 3.0], [15.0, 3.0], [20.0, 0.0]],

@@ -13,7 +13,7 @@ def get_circle(x,y,r):
 
 percent = 0.3
 width = 0.02
-export = True
+export = False
 if export:
     import cv2
     image_array = []
@@ -25,6 +25,7 @@ length = data[0]['path'].shape[0]
 ## Plot motion paths
 plt.figure(figsize=(8,5))
 ax = plt.axes()
+center_trajectory = []
 for iter in range(0,length,2):
     ax.cla()
 
@@ -46,6 +47,18 @@ for iter in range(0,length,2):
         plt.arrow(pose[1], pose[2],
                   pose[4]*percent, pose[5]*percent,
                   width=width, color='k')
+        
+    # Calculate and plot center
+    center = np.zeros(2)
+    for i in range(NUM_ROBOT):
+        pose = data[i]['path'][iter,:]
+        center += pose[1:3]
+    center /= NUM_ROBOT
+    ax.plot(center[0], center[1], 'ro', markersize=5, label='Center')
+
+    center_trajectory.append(center)
+    center_arr = np.array(center_trajectory)
+    ax.plot(center_arr[:, 0], center_arr[:, 1], linestyle='--', color='cyan', label='Center Path')
 
     ax.axis('scaled')
     ax.grid(True)
@@ -53,13 +66,9 @@ for iter in range(0,length,2):
     ax.set_ylabel('y [m]')
     plt.legend()
 
-    # find center
-    center = 0
-    for i in range(NUM_ROBOT):
-        center +=  data[i]['path'][iter,1:3]
-    center /= NUM_ROBOT
-    plt.xlim([center[0]-5, center[0]+5])
-    plt.ylim([center[1]-3, center[1]+3])
+    # Plot limit
+    plt.xlim([center[0]-7, center[0]+7])
+    plt.ylim([center[1]-5, center[1]+5])
     plt.tight_layout()
     
     plt.gcf().canvas.mpl_connect('key_release_event',

@@ -1,6 +1,7 @@
 import numpy as np
 from config import *
 from utils import *
+
 if CONTROLLER == 'erc':
     from robot_erc import Robot
 elif CONTROLLER == 'iapf':
@@ -35,6 +36,10 @@ if __name__ == "__main__":
         robot = Robot(i, INITS[i,:])
         robots.append(robot)
 
+    prev_center = None
+    stable_count = 0
+    STABLE_THRESHOLD = 100  # iterasi berturut-turut stabil untuk berhenti
+
     iter = 0
     while iter < ITER_MAX:
         iter += 1
@@ -49,13 +54,71 @@ if __name__ == "__main__":
             # print("Collision")
             break
 
+        # > XGOAL
         # Check reach goal
-        count = 0
+        # count = 0
+        # for i in range(NUM_ROBOT):
+        #     if robots[i].position[0] > XGOAL:
+        #         count += 1
+        # if count == NUM_ROBOT:
+        #     break
+
+        # == XGOAL
+        # Check reach goal
+        # center = np.zeros(3)
+        # velocity_sum = np.zeros(3)
+        # for i in range(NUM_ROBOT):
+        #     center += robots[i].position
+        #     velocity_sum += robots[i].velocity
+        # center /= NUM_ROBOT
+        # avg_velocity = np.linalg.norm(velocity_sum) / NUM_ROBOT
+
+        # threshold = 0.1
+        # velocity_threshold = 0.1
+        # position_delta_threshold = 0.1
+        # if abs(center[0] - XGOAL) < threshold and avg_velocity < velocity_threshold:
+        #     if prev_center is not None and np.linalg.norm(center - prev_center) < position_delta_threshold:
+        #         stable_count += 1
+        #     else:
+        #         stable_count = 0
+        #     if stable_count >= STABLE_THRESHOLD:
+        #         print("Formasi sudah stabil di goal. Simulasi berhenti.")
+        #         break
+        # else:
+        #     stable_count = 0
+
+        # prev_center = center.copy()
+
+        # XGOAL, YGOAL
+        # Check reach goal
+        center = np.zeros(3)
+        velocity_sum = np.zeros(3)
         for i in range(NUM_ROBOT):
-            if robots[i].position[0] > XGOAL:
-                count += 1
-        if count == NUM_ROBOT:
-            break
+            center += robots[i].position
+            velocity_sum += robots[i].velocity
+        center /= NUM_ROBOT
+        avg_velocity = np.linalg.norm(velocity_sum) / NUM_ROBOT
+
+        goal = np.array([XGOAL, YGOAL])
+        center_2d = center[:2]
+        dist_to_goal = np.linalg.norm(center_2d - goal)
+
+        threshold = 0.1
+        velocity_threshold = 0.1
+        position_delta_threshold = 0.1
+
+        if dist_to_goal < threshold and avg_velocity < velocity_threshold:
+            if prev_center is not None and np.linalg.norm(center - prev_center) < position_delta_threshold:
+                stable_count += 1
+            else:
+                stable_count = 0
+            if stable_count >= STABLE_THRESHOLD:
+                print("Formasi sudah stabil di goal. Simulasi berhenti.")
+                break
+        else:
+            stable_count = 0
+
+        prev_center = center.copy()
 
     # Save data
     import pickle

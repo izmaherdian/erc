@@ -5,8 +5,8 @@ import matplotlib.cm as cmap
 from matplotlib.patches import Polygon
 from config import *
 
-shape = 1
-methods = ['erc', 'bc', 'iapf']
+shape = 2
+methods = ['iapf']
 
 for method in methods:
     file_name = "results/data_{}_shape{}.txt".format(method, shape)

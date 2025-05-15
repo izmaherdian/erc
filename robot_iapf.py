@@ -43,7 +43,7 @@ class Robot():
         self.path.append(np.concatenate([[self.stamp], self.position, self.velocity, self.control, [self.mode.value]]))
 
     def compute_control(self, robots, dt):
-        v_mig = self.behavior_migration()
+        v_mig = self.behavior_migration(robots)
         v_obs = self.behavior_obstacle()
         v_col = self.behavior_collision(robots)
         v_form = self.behavior_formation(robots)
@@ -53,8 +53,70 @@ class Robot():
         desired_control = (desired_velocity - self.velocity)/dt
         self.update_state(desired_control, dt)
 
-    def behavior_migration(self):
-        return VREF*UREF
+    # > XGOAL 
+    # def behavior_migration(self):
+    #     return VREF*UREF
+
+    # == XGOAL
+    # def behavior_migration(self, robots):
+    #     center = np.zeros(3)
+    #     for robot in robots:
+    #         center += robot.position
+    #     center /= NUM_ROBOT
+
+    #     error = XGOAL - center[0]
+    #     max_speed = VREF
+    #     slow_down_radius = 1.0  # jarak mulai melambat
+
+    #     if abs(error) < slow_down_radius:
+    #         # proporsional kecepatan sesuai jarak error
+    #         speed = max_speed * (abs(error) / slow_down_radius)
+    #     else:
+    #         speed = max_speed
+
+    #     if speed < 0.05:
+    #         speed = 0  # berhenti kalau sangat kecil
+
+    #     direction = np.sign(error)
+    #     velocity = np.array([speed * direction, 0, 0])
+
+    #     return velocity
+
+    # XGOAL, YGOAL
+    def behavior_migration(self, robots):
+        center = np.zeros(3)
+        for robot in robots:
+            center += robot.position
+        center /= NUM_ROBOT
+
+        goal = np.array([XGOAL, YGOAL])
+        center_2d = center[:2]
+        error_vec = goal - center_2d
+        error_dist = np.linalg.norm(error_vec)
+
+        max_speed = VREF
+        slow_down_radius = 1.0  # jarak mulai melambat
+
+        if error_dist < slow_down_radius and error_dist > 0:
+            # proporsional kecepatan sesuai jarak error
+            speed = max_speed * (error_dist / slow_down_radius)
+        elif error_dist == 0:
+            speed = 0
+        else:
+            speed = max_speed
+
+        if speed < 0.05:
+            speed = 0  # berhenti kalau sangat kecil
+
+        if error_dist > 0:
+            direction = error_vec / error_dist
+        else:
+            direction = np.array([0.0, 0.0])
+
+        velocity_2d = speed * direction
+        velocity = np.array([velocity_2d[0], velocity_2d[1], 0.0])  # tetap 0 untuk z
+
+        return velocity
     
     def behavior_formation(self, robots):
         v_form = 0
