@@ -13,7 +13,7 @@ def get_circle(x,y,r):
 
 percent = 0.3
 width = 0.02
-export = True
+export = False
 if export:
     import cv2
     image_array = []
