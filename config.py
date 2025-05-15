@@ -37,7 +37,7 @@ YGOAL = 3.0
 NUM_ROBOT = INITS.shape[0]
 
 # Formation description
-TYPE = 2
+TYPE = 1
 if TYPE == 1: # Polygon
     TOPOLOGY = []
     for i in range(NUM_ROBOT):
