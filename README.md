@@ -1,7 +1,8 @@
 # Event-based Reconfiguration Control for Time-varying Robot Formation in Narrow Spaces
 This repository presents the following article in Python:
 
-Duy-Nam Bui, Manh Duong Phung, Hung Pham Duy, **"Event-based Reconfiguration Control for Time-varying Robot Formation in Narrow Spaces,"**.
+Duy-Nam Bui, Manh Duong Phung, Hung Pham Duy, **"Event-based Reconfiguration Control for Time-varying Robot Formation in Narrow Spaces,"** *Intelligent Service Robotics*. 2025. 
+[[Citation](#citation)].
 
 ## Installation
 ```
@@ -25,3 +26,16 @@ python3 visualization.py
 |:---:| :---:      |     :---:  |
 |ERC| <img src="results/gif_erc_shape1.gif" alt="" width="100%"/> | <img src="results/gif_erc_shape2.gif" alt="" width="100%"/> |
 |BC|<img src="results/gif_bc_shape1.gif" alt="" width="100%"/> | <img src="results/gif_bc_shape2.gif" alt="" width="100%"/> |
+
+## Citation
+```
+@ARTICLE{Nam2025,
+  author={Bui, Duy-Nam and Phung, Manh Duong and Pham Duy, Hung},
+  journal={Intelligent Service Robotics}, 
+  title={Event-based Reconfiguration Control for Time-varying Robot Formation in Narrow Spaces}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-12},
+  doi={}}
+```
