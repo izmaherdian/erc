@@ -3,7 +3,7 @@ import numpy as np
 TIMESTEP = 0.05
 ROBOT_RADIUS = 0.3
 ALERT_RADIUS = 3*ROBOT_RADIUS
-SENSING_RADIUS = 3.0
+SENSING_RADIUS = 5.0
 ITER_MAX = 1000
 
 EPSILON = 0.1
@@ -37,7 +37,7 @@ YGOAL = 3.0
 NUM_ROBOT = INITS.shape[0]
 
 # Formation description
-TYPE = 1
+TYPE = 2
 if TYPE == 1: # Polygon
     TOPOLOGY = []
     for i in range(NUM_ROBOT):
