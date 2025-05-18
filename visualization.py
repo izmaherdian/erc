@@ -2,7 +2,7 @@ import numpy as np
 import pickle
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
-from config import *
+from config_traj import *
 
 with open(FILE_NAME, 'rb') as file:
     data = pickle.load(file)

@@ -3,7 +3,7 @@ from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 import numpy as np
-from config import *
+from config_traj import *
 
 def get_circle(x,y,r):
     theta = np.linspace( 0 , 2 * np.pi , 150 )   

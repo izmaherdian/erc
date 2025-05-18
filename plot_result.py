@@ -3,7 +3,7 @@ import pickle
 import matplotlib.pyplot as plt
 import matplotlib.cm as cmap
 from matplotlib.patches import Polygon
-from config import *
+from config_traj import *
 
 def get_circle(x,y,r):
     theta = np.linspace(0, 2 * np.pi, 20)

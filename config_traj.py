@@ -31,8 +31,8 @@ INITS = np.array([[-18.0, 3.0, 0.],
                   [-18.7, 0.0, 0.],
                   [-18.4, -2.0, 0.]])
 
-XGOAL = -18.0
-YGOAL = 3.0
+XGOAL = -8.0
+YGOAL = 4.0
 
 NUM_ROBOT = INITS.shape[0]
 

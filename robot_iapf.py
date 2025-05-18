@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-from config import *
+from config_traj import *
 from utils import *
 from enum import Enum
 
@@ -34,6 +34,8 @@ class Robot():
             velocity = velocity/velocity_norm*VMAX
 
         position = self.position + velocity*dt
+
+        # print("Robot {}: position = {}".format(self.index, position))
 
         # Update state
         self.stamp += dt

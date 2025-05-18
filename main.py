@@ -1,5 +1,5 @@
 import numpy as np
-from config import *
+from config_traj import *
 from utils import *
 
 if CONTROLLER == 'erc':
@@ -38,20 +38,21 @@ if __name__ == "__main__":
 
     prev_center = None
     stable_count = 0
-    STABLE_THRESHOLD = 100  # iterasi berturut-turut stabil untuk berhenti
+    STABLE_THRESHOLD = 10  # iterasi berturut-turut stabil untuk berhenti
 
     iter = 0
     while iter < ITER_MAX:
         iter += 1
-        if iter % 10 == 0:
-            print("Iteration {}".format(iter))
+        # if iter % 10 == 0:
+        #     print("Iteration {}".format(iter))
 
         for i in range(NUM_ROBOT):
             robots[i].compute_control(robots, dt=TIMESTEP)
+            # print("Robot {}: {}".format(i, robots[i].position))
 
         # Check collision
         if collision(robots):
-            # print("Collision")
+            print("Collision")
             break
 
         # > XGOAL
@@ -97,6 +98,7 @@ if __name__ == "__main__":
             center += robots[i].position
             velocity_sum += robots[i].velocity
         center /= NUM_ROBOT
+        print("Center: ", center)
         avg_velocity = np.linalg.norm(velocity_sum) / NUM_ROBOT
 
         goal = np.array([XGOAL, YGOAL])

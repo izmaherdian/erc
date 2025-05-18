@@ -3,7 +3,7 @@ import pickle
 import matplotlib.pyplot as plt
 import matplotlib.cm as cmap
 from matplotlib.patches import Polygon
-from config import *
+from config_traj import *
 
 shape = 2
 methods = ['iapf']

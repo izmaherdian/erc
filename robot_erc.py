@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-from config import *
+from config_traj import *
 from utils import *
 from enum import Enum
 
