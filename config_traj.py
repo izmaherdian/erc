@@ -1,10 +1,10 @@
 import numpy as np
 
 TIMESTEP = 0.05
-ROBOT_RADIUS = 0.3
+ROBOT_RADIUS = 0.2
 ALERT_RADIUS = 3*ROBOT_RADIUS
-SENSING_RADIUS = 5.0
-ITER_MAX = 1000
+SENSING_RADIUS = 3.0
+ITER_MAX = 2000
 
 EPSILON = 0.1
 ALPHA = 8
@@ -25,19 +25,19 @@ XLIM = [-20., 25.]
 YLIM = [  0., 6.5]
 SIZE = [10, 3]
 
-INITS = np.array([[-18.0, 3.0, 0.],
-                  [-18.4, 8.0, 0.],
-                  [-18.7, 6.0, 0.],
-                  [-18.7, 0.0, 0.],
-                  [-18.4, -2.0, 0.]])
+INITS = np.array([[1.0, 4.0, 0.],
+                  [-3.0, 11.0, 0.],
+                  [-2.0, 8.0, 0.],
+                  [-2.0, -2.0, 0.],
+                  [-3.0, -5.0, 0.]])
 
-XGOAL = -8.0
-YGOAL = 4.0
+XGOAL = 25.0
+YGOAL = 3.0
 
 NUM_ROBOT = INITS.shape[0]
 
 # Formation description
-TYPE = 1
+TYPE = 2
 if TYPE == 1: # Polygon
     TOPOLOGY = []
     for i in range(NUM_ROBOT):
