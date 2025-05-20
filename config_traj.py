@@ -33,6 +33,7 @@ INITS = np.array([[1.0, 4.0, 0.],
 
 XGOAL = 25.0
 YGOAL = 3.0
+ZGOAL = 1.0
 
 NUM_ROBOT = INITS.shape[0]
 
@@ -63,6 +64,17 @@ OBSTACLES = [
     # Narrow gap
     [[0.0, 0.0], [ 5.0, 3.0], [15.0, 3.0], [20.0, 0.0]],
     [[0.0, 6.5], [10.0, 4.0], [15.0, 4.0], [20.0, 6.5]]
+]
+
+# Ketinggian obstacle sesuai urutan di OBSTACLES
+OBSTACLE_HEIGHTS = [
+    (0.0, 2.0),
+    (0.0, 3.0),
+    (0.0, 1.5),
+    (0.0, 2.5),
+    
+    (0.0, 1.0),
+    (0.0, 2.8)
 ]
 
 FILE_NAME = "results/data_{}_shape{}.txt".format(CONTROLLER, TYPE)

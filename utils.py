@@ -23,8 +23,8 @@ def nearest_point_to_obstacle(pose, obstacle):
     nearest_point = []
     nearest_dis= float(np.inf)
     for i in range(len(obstacle)):
-        per = perpendicular(pose, np.array(obstacle[i]), np.array(obstacle[np.mod(i+1,4)]))
-        dis_per = np.linalg.norm(pose-per)
+        per = perpendicular(pose, np.array(obstacle[i]), np.array(obstacle[(i+1) % len(obstacle)]))
+        dis_per = np.linalg.norm(pose - per)
         if dis_per < nearest_dis:
             nearest_dis = dis_per
             nearest_point = per

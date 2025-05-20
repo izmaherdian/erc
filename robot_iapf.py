@@ -85,15 +85,50 @@ class Robot():
     #     return velocity
 
     # XGOAL, YGOAL
+    # def behavior_migration(self, robots):
+    #     center = np.zeros(3)
+    #     for robot in robots:
+    #         center += robot.position
+    #     center /= NUM_ROBOT
+
+    #     goal = np.array([XGOAL, YGOAL])
+    #     center_2d = center[:2]
+    #     error_vec = goal - center_2d
+    #     error_dist = np.linalg.norm(error_vec)
+
+    #     max_speed = VREF
+    #     slow_down_radius = 1.0  # jarak mulai melambat
+
+    #     if error_dist < slow_down_radius and error_dist > 0:
+    #         # proporsional kecepatan sesuai jarak error
+    #         speed = max_speed * (error_dist / slow_down_radius)
+    #     elif error_dist == 0:
+    #         speed = 0
+    #     else:
+    #         speed = max_speed
+
+    #     if speed < 0.05:
+    #         speed = 0  # berhenti kalau sangat kecil
+
+    #     if error_dist > 0:
+    #         direction = error_vec / error_dist
+    #     else:
+    #         direction = np.array([0.0, 0.0])
+
+    #     velocity_2d = speed * direction
+    #     velocity = np.array([velocity_2d[0], velocity_2d[1], 0.0])  # tetap 0 untuk z
+
+    #     return velocity
+
+    # XGOAL, YGOAL, ZGOAL
     def behavior_migration(self, robots):
         center = np.zeros(3)
         for robot in robots:
             center += robot.position
         center /= NUM_ROBOT
 
-        goal = np.array([XGOAL, YGOAL])
-        center_2d = center[:2]
-        error_vec = goal - center_2d
+        goal = np.array([XGOAL, YGOAL, ZGOAL])
+        error_vec = goal - center
         error_dist = np.linalg.norm(error_vec)
 
         max_speed = VREF
@@ -113,10 +148,9 @@ class Robot():
         if error_dist > 0:
             direction = error_vec / error_dist
         else:
-            direction = np.array([0.0, 0.0])
+            direction = np.array([0.0, 0.0, 0.0])
 
-        velocity_2d = speed * direction
-        velocity = np.array([velocity_2d[0], velocity_2d[1], 0.0])  # tetap 0 untuk z
+        velocity = speed * direction
 
         return velocity
     
@@ -130,12 +164,26 @@ class Robot():
         v_obs = 0
         for j in range(len(OBSTACLES)):
             obstacle = OBSTACLES[j]
+            z_min, z_max = OBSTACLE_HEIGHTS[j]
+
             obs_point = nearest_point_to_obstacle(self.position[:2], obstacle)
-            obs_rel = self.position - np.concatenate([obs_point,[self.position[2]]])
-            obs_dis = np.linalg.norm(obs_rel)
-            if obs_dis < ALERT_RADIUS:
-                v_obs += 0.5*(1/obs_dis - 1/ALERT_RADIUS)/(obs_dis**2)*obs_rel/obs_dis
-        return W_obs*v_obs
+
+            z_rel = 0
+            if self.position[2] < z_min:
+                z_rel = z_min - self.position[2]
+            elif self.position[2] > z_max:
+                z_rel = self.position[2] - z_max
+
+            obs_rel_xy = self.position[:2] - obs_point
+            horizontal_dist = np.linalg.norm(obs_rel_xy)
+
+            obs_dis = np.sqrt(horizontal_dist**2 + z_rel**2)
+
+            if obs_dis < ALERT_RADIUS and obs_dis > 0:
+                direction_xy = obs_rel_xy / horizontal_dist if horizontal_dist != 0 else np.zeros(2)
+                v_obs += 0.5 * (1/obs_dis - 1/ALERT_RADIUS) / (obs_dis**2) * np.array([direction_xy[0], direction_xy[1], 0])
+
+        return W_obs * v_obs
     
     def behavior_collision(self, robots):
         v_col = 0
